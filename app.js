@@ -17,6 +17,12 @@ app.use(express.json());
 app.use("/api", router);
 app.use("/api/products", prodRouter);
 app.use("/api/userproducts", productRouter);
+
+app.unsubscribe((err, req, res, next)=>{
+  res.status(500).send({mesage: err.message})
+})
+
+
 mongoose
   .connect(
     `mongodb+srv://brijesh:brijesh@cluster0.qe9bgqk.mongodb.net/eCommerse?retryWrites=true&w=majority`

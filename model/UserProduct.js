@@ -3,34 +3,34 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema
 
 const productSchema = new Schema({
-    itemCategory:[{
+    itemCategory:{
         type: String,
         required: true,
-    }],
-    itemName:[{
+    },
+    itemName:{
         type: String,
         required: true,
-    }],
-    itemPrice:[{
+    },
+    itemPrice:{
         type: Number,
         required: true,
-    }],
-    itemQty:[{
+    },
+    itemQty:{
         type: Number,
         required: true,
-    }],
-    itemUnit:[{  
+    },
+    itemUnit:{  
         type: String,
         required: true,
-    }],
-    itemDescription:[{
+    },
+    itemDescription:{
         type: String,
         required: true,
-    }],
-    image:[{
+    },
+    image:{
         type: String,
         required: true,
-    }],
+    },
     user:{
         type:mongoose.Types.ObjectId,
         ref:"User",
