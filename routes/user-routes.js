@@ -16,6 +16,12 @@ router.post("/login", expressAsyncHandler(async (req, res, next) => {
         res.send({
           _id:user._id,
           firstname:user.firstname,
+          lastname:user.lastname,
+          address1:user.address1,
+          address2:user.address2,
+          address3:user.address3,
+          phone:user.phone,
+          age:user.age,
           email:user.email,
           token:generateToken(user)
         });

@@ -6,6 +6,7 @@ import cors from "cors"
 import prodRouter from "./routes/products-routes";
 import productRouter from "./routes/userProducts-routes";
 import dotenv from 'dotenv'
+import orderRouter from "./routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", router);
 app.use("/api/products", prodRouter);
-app.use("/api/userproducts", productRouter);
+app.use("/api/orders", orderRouter);
 
 app.unsubscribe((err, req, res, next)=>{
   res.status(500).send({mesage: err.message})
