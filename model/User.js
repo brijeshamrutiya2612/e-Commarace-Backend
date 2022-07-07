@@ -50,13 +50,6 @@ const UserSchema = Schema(
       required: true,
       max: 100,
     },
-    UserProducts: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "UserProducts",
-        required: true,
-      },
-    ],
   },
   { timestamps: true }
 );
