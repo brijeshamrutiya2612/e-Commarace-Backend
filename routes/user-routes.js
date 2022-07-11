@@ -7,7 +7,7 @@ import { generateToken, isAuth } from "../utils";
 
 const router = express.Router();
 
-router.post("/signup", signup);
+// router.post("/users", signup);
 router.post(
   "/login",
   expressAsyncHandler(async (req, res, next) => {
@@ -57,6 +57,33 @@ router.put(
     }
   })
 );
+router.post('/signup',
+expressAsyncHandler(async (req, res)=>{
+  const newUser = new User({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    address1: req.body.address1,
+    address2: req.body.address2,
+    address3: req.body.address3,
+    phone: req.body.phone,
+    age: req.body.age,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password),
+  });
+  const user = await newUser.save();
+  res.send({
+    _id: user._id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    address1: user.address1,
+    address2: user.address2,
+    address3: user.address3,
+    phone: user.phone,
+    age: user.age,
+    email: user.email,
+    token: generateToken(user),
+  });
+}))
 router.get("/users", getUser); //verifyToken
 // //router.get("/refresh",  getUser); refreshToken, verifyToken,
 // router.post("/logout", logout); //refreshToken,

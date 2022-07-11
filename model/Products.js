@@ -19,6 +19,10 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
+    rating:{
+        type: String,
+        required: true,
+    },
     itemUnit:{  
         type: String,
         required: true,
