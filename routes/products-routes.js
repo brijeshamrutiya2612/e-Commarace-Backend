@@ -8,43 +8,56 @@ import {
 } from "../controllers/products-controllers";
 import expressAsyncHandler from "express-async-handler";
 import Products from "../model/Products.js";
+import { isAuth } from "../utils";
 
 const prodRouter = express.Router();
 
-prodRouter.get("/", getAllProducts);
-prodRouter.post("/add", addProducts);
-// prodRouter.put("/update/:id", updateProducts);
-prodRouter.get("/:id", getById);
-// prodRouter.delete("/:id", deleteProducts);
 
+prodRouter.get('/', async (req, res) => {
+  const products = await Products.find();
+  res.send(products);
+});
+
+prodRouter.delete(
+  '/:id',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Products.findById(req.params.id);
+    if (product) {
+      await product.remove();
+      res.send({ message: 'Product Deleted' });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
 
 const PAGE_SIZE = 3;
+
 prodRouter.get(
-  "/search",
+  '/search',
   expressAsyncHandler(async (req, res) => {
-    const {query} = req;
+    const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
-    const itemCategory = query.itemCategory || "";
-    const price = query.price || "";
-    const rating = query.rating || "";
-    const order = query.order || "";
-    const searchQuery = query.query || "";
+    const itemCategory = query.itemCategory || '';
+    const price = query.price || '';
+    const rating = query.rating || '';
+    const order = query.order || '';
+    const searchQuery = query.query || '';
 
     const queryFilter =
-      searchQuery && searchQuery !== "all"
+      searchQuery && searchQuery !== 'all'
         ? {
             name: {
               $regex: searchQuery,
-              $options: "i", //caseSensitive
+              $options: 'i',
             },
           }
         : {};
-
-    const categoryFilter = itemCategory && itemCategory !== "all" ? { itemCategory } : {};
-
+    const categoryFilter = itemCategory && itemCategory !== 'all' ? { itemCategory } : {};
     const ratingFilter =
-      rating && rating !== "all"
+      rating && rating !== 'all'
         ? {
             rating: {
               $gte: Number(rating),
@@ -52,24 +65,25 @@ prodRouter.get(
           }
         : {};
     const priceFilter =
-      price && price !== "all"
+      price && price !== 'all'
         ? {
+            // 1-50
             price: {
-              $gte: Number(price.split("-")[0]),
-              $lte: Number(price.split("-")[1]),
+              $gte: Number(price.split('-')[0]),
+              $lte: Number(price.split('-')[1]),
             },
           }
         : {};
     const sortOrder =
-      order === "featured"
+      order === 'featured'
         ? { featured: -1 }
-        : order === "lowest"
+        : order === 'lowest'
         ? { price: 1 }
-        : order === "highest"
+        : order === 'highest'
+        ? { price: -1 }
+        : order === 'toprated'
         ? { rating: -1 }
-        : order === "toprated"
-        ? { rating: -1 }
-        : order === "newest"
+        : order === 'newest'
         ? { createdAt: -1 }
         : { _id: -1 };
 
@@ -82,20 +96,49 @@ prodRouter.get(
       .sort(sortOrder)
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-      const countProducts = await Products.countDocuments({
-        ...queryFilter,
-        ...categoryFilter,
-        ...priceFilter,
-        ...ratingFilter,
-      });
+
+    const countProducts = await Products.countDocuments({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    });
     res.send({
       products,
       countProducts,
       page,
-      pages: Math.ceil(countProducts / pageSize)
+      pages: Math.ceil(countProducts / pageSize),
     });
   })
 );
+
+prodRouter.get(
+  '/categories',
+  expressAsyncHandler(async (req, res) => {
+    const categories = await Products.find().distinct('itemCategory');
+    res.send(categories);
+  })
+);
+
+prodRouter.get('/:id', async (req, res) => {
+  const product = await Products.findById(req.params.id);
+  if (product) {
+    res.send(product);
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
+
+
+// prodRouter.get("/", getAllProducts);
+// prodRouter.post("/add", addProducts);
+// prodRouter.put("/update/:id", updateProducts);
+// prodRouter.get("/:id", getById);
+// prodRouter.delete("/:id", deleteProducts);
+
+
+
 
 
 export default prodRouter;
