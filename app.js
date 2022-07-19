@@ -7,6 +7,7 @@ import prodRouter from "./routes/products-routes";
 import productRouter from "./routes/userProducts-routes";
 import dotenv from 'dotenv'
 import orderRouter from "./routes/orderRoutes.js";
+import SellerRoute from "./routes/SellerRoute";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/api", router);
 app.use("/api/products", prodRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/seller", SellerRoute);
 
 app.unsubscribe((err, req, res, next)=>{
   res.status(500).send({mesage: err.message})

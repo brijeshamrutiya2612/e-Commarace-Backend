@@ -12,6 +12,18 @@ export const generateToken = (user) => {
     }
   );
 };
+export const generateSellerToken = (Seller) => {
+  return jwt.sign(
+    {
+      _id: Seller._id,
+      email: Seller.email,
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: "30d",
+    }
+  );
+};
 
 
 export const isAuth = (req, res, next) =>{

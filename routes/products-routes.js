@@ -32,7 +32,7 @@ prodRouter.delete(
   })
 );
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 8;
 
 prodRouter.get(
   '/search',
@@ -41,10 +41,10 @@ prodRouter.get(
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
     const itemCategory = query.itemCategory || '';
-    const price = query.price || '';
+    const itemPrice = query.itemPrice || '';
     const rating = query.rating || '';
     const order = query.order || '';
-    const searchQuery = query.query || '';
+    const searchQuery = query.itemName || query.itemCategory || '';
 
     const queryFilter =
       searchQuery && searchQuery !== 'all'
@@ -65,12 +65,12 @@ prodRouter.get(
           }
         : {};
     const priceFilter =
-      price && price !== 'all'
+      itemPrice && itemPrice !== 'all'
         ? {
             // 1-50
-            price: {
-              $gte: Number(price.split('-')[0]),
-              $lte: Number(price.split('-')[1]),
+            itemPrice: {
+              $gte: Number(itemPrice.split('-')[0]),
+              $lte: Number(itemPrice.split('-')[1]),
             },
           }
         : {};
@@ -78,9 +78,9 @@ prodRouter.get(
       order === 'featured'
         ? { featured: -1 }
         : order === 'lowest'
-        ? { price: 1 }
+        ? { itemPrice: 1 }
         : order === 'highest'
-        ? { price: -1 }
+        ? { itemPrice: -1 }
         : order === 'toprated'
         ? { rating: -1 }
         : order === 'newest'
