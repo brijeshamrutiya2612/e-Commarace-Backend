@@ -21,6 +21,9 @@ const productSchema = new Schema({
     },
     rating:{
         type: String,
+    },
+    mnfName:{
+        type: String,
         required: true,
     },
     itemUnit:{  

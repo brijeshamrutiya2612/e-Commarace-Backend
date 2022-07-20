@@ -8,6 +8,7 @@ import productRouter from "./routes/userProducts-routes";
 import dotenv from 'dotenv'
 import orderRouter from "./routes/orderRoutes.js";
 import SellerRoute from "./routes/SellerRoute";
+import  ratingRouter from "./routes/RatingRoute";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api", router);
 app.use("/api/products", prodRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/seller", SellerRoute);
+app.use("/api/rating",  ratingRouter);
 
 app.unsubscribe((err, req, res, next)=>{
   res.status(500).send({mesage: err.message})
