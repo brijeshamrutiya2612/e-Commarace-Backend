@@ -133,7 +133,7 @@ prodRouter.post("/add", addProducts);
 
 
 // prodRouter.get("/", getAllProducts);
-// prodRouter.put("/update/:id", updateProducts);
+prodRouter.put("/update/:id", updateProducts);
 // prodRouter.get("/:id", getById);
 // prodRouter.delete("/:id", deleteProducts);
 

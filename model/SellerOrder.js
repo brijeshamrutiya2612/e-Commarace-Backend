@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
-const orderSchema = new Schema({
+const sellerOrderSchema = new Schema({
     orderItems:[
         {
         itemCategory:{
@@ -81,16 +81,6 @@ shippingAddress:{
     shippingPrice: {type: Number, required: true},
     taxPrice: {type: Number, required: true},
     totalPrice: {type: Number, required: true},
-    user:{
-        type:mongoose.Types.ObjectId,
-        ref:'User',
-        required:true,
-    },
-    seller:{
-        type:mongoose.Types.ObjectId,
-        ref:'Seller',
-        required:true,
-    },
     isPaid: {type: Boolean, default:false},
     paidAt: {type: Date},
     isDelivered: {type: Boolean, default: false},
@@ -100,4 +90,4 @@ shippingAddress:{
     timestamps: true,
 })
 
-export default mongoose.model("Order", orderSchema);
+export default mongoose.model("SellerOrder", sellerOrderSchema);
