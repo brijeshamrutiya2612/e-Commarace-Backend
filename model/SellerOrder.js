@@ -77,6 +77,9 @@ shippingAddress:{
         update_time: String,
         email_address: String,
     },
+    seller:{
+        type:String
+    },
     itemPrice: {type: Number, required: true},
     shippingPrice: {type: Number, required: true},
     taxPrice: {type: Number, required: true},

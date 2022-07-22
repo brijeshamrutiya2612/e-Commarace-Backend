@@ -86,11 +86,6 @@ shippingAddress:{
         ref:'User',
         required:true,
     },
-    seller:{
-        type:mongoose.Types.ObjectId,
-        ref:'Seller',
-        required:true,
-    },
     isPaid: {type: Boolean, default:false},
     paidAt: {type: Date},
     isDelivered: {type: Boolean, default: false},

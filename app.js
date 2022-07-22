@@ -9,10 +9,14 @@ import dotenv from 'dotenv'
 import orderRouter from "./routes/orderRoutes.js";
 import SellerRoute from "./routes/SellerRoute";
 import  ratingRouter from "./routes/RatingRoute";
+import sellerOrderRouter from "./routes/SellerOrderRoute";
+import bodyParser from 'body-parser'
 
 dotenv.config();
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.urlencoded({extended:true}));
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000"} )),
@@ -25,8 +29,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", router);
 app.use("/api/products", prodRouter);
-app.use("/api/orders", orderRouter);
 app.use("/api/seller", SellerRoute);
+app.use("/api/orders", orderRouter);
+app.use("/api/sellerorders", sellerOrderRouter);
 app.use("/api/rating",  ratingRouter);
 
 app.unsubscribe((err, req, res, next)=>{

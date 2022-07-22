@@ -12,11 +12,11 @@ export const generateToken = (user) => {
     }
   );
 };
-export const generateSellerToken = (Seller) => {
+export const generateSellerToken = (seller) => {
   return jwt.sign(
     {
-      _id: Seller._id,
-      email: Seller.email,
+      _id: seller._id,
+      email: seller.email,
     },
     process.env.JWT_SECRET_KEY,
     {

@@ -24,9 +24,11 @@ sellerOrderRouter.post(
 
 sellerOrderRouter.get(
     "/mine",
-    isAuth,
     expressAsyncHandler(async (req, res) => {
-      const orders = await Order.find({user: req.user._id});
+      const orders = await SellerOrder.find();
+      // console.log({seller: req.sellerUser._id})
         res.send(orders);
     })
   );
+
+  export default sellerOrderRouter;

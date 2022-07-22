@@ -5,6 +5,7 @@ import { generateSellerToken } from "../utils";
 import Seller from "../model/Seller";
 
 const SellerRoute = express.Router();
+
 SellerRoute.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
@@ -32,6 +33,7 @@ SellerRoute.post(
     res.status(401).send({ message: "Invalid email or password" });
   })
 );
+
 SellerRoute.get(
   "/sellerlogin",
   expressAsyncHandler(async (req, res, next) => {
@@ -65,21 +67,21 @@ SellerRoute.post(
       PAN_NO: req.body.PAN_NO,
       password: bcrypt.hashSync(req.body.password),
     });
-    const seller = await newSeller.save();
+    const sellerUser = await newSeller.save();
     res.send({
-      _id: seller._id,
-      firstname: seller.firstname,
-      lastname: seller.lastname,
-      mnfName: seller.mnfName,
-      email: seller.email,
-      address1: seller.address1,
-      address2: seller.address2,
-      address3: seller.address3,
-      Mobile: seller.Mobile,
-      Age: seller.Age,
-      GSTIN: seller.GSTIN,
-      PAN_NO: seller.PAN_NO,
-      token: generateSellerToken(seller),
+      _id: sellerUser._id,
+      firstname: sellerUser.firstname,
+      lastname: sellerUser.lastname,
+      mnfName: sellerUser.mnfName,
+      email: sellerUser.email,
+      address1: sellerUser.address1,
+      address2: sellerUser.address2,
+      address3: sellerUser.address3,
+      Mobile: sellerUser.Mobile,
+      Age: sellerUser.Age,
+      GSTIN: sellerUser.GSTIN,
+      PAN_NO: sellerUser.PAN_NO,
+      token: generateSellerToken(sellerUser),
     });
   })
 );
